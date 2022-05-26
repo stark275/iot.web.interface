@@ -18,6 +18,9 @@ Route::get('/monitor', [IotController::class,'monitor'])->name('iot.monitor');
 
 Route::get('/save/{value}', [IotController::class,'create'])->name('iot.save');
 
+Route::get('/last', [IotController::class,'getLastValue'])->name('iot.last');
+
+
 
 Route::get('/', function () {
     return view('welcome');

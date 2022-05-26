@@ -27,6 +27,6 @@ class IotController extends Controller
 
     public function getLastValue()
     {
-        return Iot::orderBy('created_at', 'desc')->first();
+       return (Iot::orderBy('created_at', 'desc')->first()) ;
     }
 }
