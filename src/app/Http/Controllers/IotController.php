@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Iot;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class IotController extends Controller
 {
@@ -22,7 +23,7 @@ class IotController extends Controller
             'val' => $value
        ]);
 
-       dd($insert);
+       return response('',Response::HTTP_NO_CONTENT);
     }
 
     public function getLastValue()
