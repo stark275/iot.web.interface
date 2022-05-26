@@ -1,7 +1,7 @@
 version: '3'
 
 networks:
-  cilu:
+  iot:
 
 services:
   nginx:
@@ -16,11 +16,11 @@ services:
       - php
       - mysql
     networks:
-      - cilu
+      - iot
 
   mysql:
     image: mysql:5.7.22
-    container_name: mysql_cilu
+    container_name: mysql_iot
     restart: unless-stopped
     tty: true
     volumes:
@@ -28,14 +28,14 @@ services:
     ports:
       - "33077:3306"
     environment:
-      MYSQL_DATABASE: cilu
+      MYSQL_DATABASE: iot
       MYSQL_USER: root
       MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
-      - cilu
+      - iot
 
   pma2:
       depends_on:
@@ -48,20 +48,20 @@ services:
       environment:
         PMA_HOST: mysql
       networks:
-      - cilu
+      - iot
   
   # usage docker-compose run --rm php --version
   php:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: php_cilu
+    container_name: php_iot
     volumes:
       - ./src:/var/www/html
     ports:
       - "9000:9000"
     networks:
-      - cilu
+      - iot
 
   # usage docker-compose run --rm composer dump-autoload -o
   composer:
@@ -73,7 +73,7 @@ services:
     depends_on:
       - php
     networks:
-      - cilu
+      - iot
     
   # usage docker-compose run --rm artisan make:controller TestController
   artisan:
@@ -88,7 +88,7 @@ services:
     working_dir: /var/www/html
     entrypoint: ['/var/www/html/artisan']
     networks:
-      - cilu
+      - iot
 
   ###############################################################
   ################# Media Server Configuration ##################

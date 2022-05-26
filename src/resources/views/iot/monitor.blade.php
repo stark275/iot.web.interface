@@ -54,9 +54,7 @@
     })
 
     console.log(data);
-    // debugger;
-      // Replace Math.random() with a pseudo-random number generator to get reproducible results in e2e tests
-      // Based on https://gist.github.com/blixt/f17b47c62508be59987b
+
       var _seed = 42;
       Math.random = function() {
         _seed = _seed * 16807 % 2147483647;
@@ -69,20 +67,8 @@
 //   var data = []
   var TICKINTERVAL = 86400000
   let XAXISRANGE = 777600000
+
   function getDayWiseTimeSeries(baseval, count, yrange) {
-    var i = 0;
-    // while (i < count) {
-    //   var x = baseval;
-    //   var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-
-    //   data.push({
-    //     x, y
-    //   });
-    //   lastDate = baseval
-    //   baseval += TICKINTERVAL;
-    //   i++;
-    // }
-
     values.forEach(function(item)  {
         let x = baseval;
         let y = parseInt((item.val / 100),10 );
@@ -190,7 +176,7 @@
           range: XAXISRANGE,
         },
         yaxis: {
-          max: 100
+          max: 25
         },
         legend: {
           show: false
@@ -198,7 +184,7 @@
         annotations: {
         yaxis: [
             {
-            y: 70,
+            y: 16,
             borderColor: 'red',
             label: {
                 style: {
@@ -207,8 +193,8 @@
                 text: 'Nivieau Dangereux'
             }
             }
-        ]
-         }
+         ]
+        }
     };
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
