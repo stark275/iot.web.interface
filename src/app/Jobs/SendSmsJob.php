@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Iot;
 use App\Services\SmsService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -32,9 +33,35 @@ class SendSmsJob implements ShouldQueue
      */
     public function handle()
     {
-        $message = 'ATTENTION! LE CAPTEUR A DETECTE UNE CONCENTRATION ANORMALE DE FUMEE';
-        $sms = SmsService::getInstance();
-        dump($sms->send($message, $this->phone));
+        $iot = Iot::orderBy('created_at', 'desc')->take(15)->get(['val','created_at']);
+        $alert = false;
+
+        dump("|------------------------------------------------------------|");
+        dump("|                  FASI-IOT GAZ LEVEL LISTENER               |");
+        dump("|------------------------------------------------------------|");
+
+
+
+
+        foreach ($iot as $item) {
+            if ($item->val > 1200) {
+                dump("$item->val :-> !!!!! DANGEROUS !!!!");
+                $alert = true;
+            }else{
+                dump("$item->val :-> [ Normal ]");
+            }
+        }
+
+        if ($alert) {
+            $message = 'ATTENTION! LE CAPTEUR A DETECTE UNE CONCENTRATION ANORMALE DE FUMEE';
+            $sms = SmsService::getInstance();
+            dump($message);
+            dump($sms->send($message, $this->phone));
+            $alert = false;
+        }
+
+
+
 
     }
 }
